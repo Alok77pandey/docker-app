@@ -1,4 +1,6 @@
-FROM nginx:alpine
-COPY index.html /usr/share/nginx/html/
-EXPOSE 80
-CMD ["nginx","-g","daemon off;"]
+FROM openjdk:8-jdk-alpine
+WORKDIR /app
+COPY index.java /app
+RUN javac index.java
+CMD ["java", "index"]
+
