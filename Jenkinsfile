@@ -10,13 +10,11 @@ pipeline {
 
     stage('Push to DockerHub') {
       steps {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
           sh 'docker login -u alokpandey25 -p Alokpan777'
           sh 'docker push alokpandey25/indexapp'
           sh 'docker logout'
         }
       }
- 
 
     stage('Deploy') {
       steps {
