@@ -1,27 +1,19 @@
 pipeline {
-  agent any
-
-  stages {
-    stage('Build') {
-      steps {
-        sh 'docker build -t alokpandey25/docker-app .'
-      }
-    }
-
-    stage('Push to DockerHub') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-          sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
-          sh 'docker push alokpandey25/docker-app'
-          sh 'docker logout'
+    agent any
+    stages {
+        stage('Build and push Docker image') {
+            steps {
+                withCredentials([[
+                    $class: 'UsernamePasswordMultiBinding',
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKERHUB_USERNAME',
+                    passwordVariable: 'DOCKERHUB_PASSWORD'
+                ]]) {
+                    docker.withRegistry("https://registry.hub.docker.com", "dockerhub-creds") {
+                        docker.build("alokpandey25/docker-app").push()
+                    }
+                }
+            }
         }
-      }
     }
-
-    stage('Deploy') {
-      steps {
-        sh 'docker run -d -p 80:80 alokpandey25/docker-app'
-      }
-    }
-  }
 }
