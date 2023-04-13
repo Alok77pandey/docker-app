@@ -1,5 +1,15 @@
 pipeline {
   agent any
+  
+script {
+    docker.withRegistry("https://registry.hub.docker.com", "dockerhub-creds") {
+        // your Docker commands here
+        docker.build("alokpandey25/indexapp")
+        docker.withImage("alokpandey25/indexapp") {
+            // more Docker commands here
+        }
+    }
+}
 
   stages {
     stage('Build') {
@@ -23,4 +33,3 @@ pipeline {
     }
   }
 }
-
