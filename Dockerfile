@@ -1,6 +1,5 @@
 FROM openjdk:8-jdk-alpine
 WORKDIR /app
-COPY index.java /app
-RUN javac index.java
-CMD ["java", "index"]
-
+COPY RealTimeClock.java /app
+RUN javac RealTimeClock.java
+CMD ["java", "RealTimeClock"]
