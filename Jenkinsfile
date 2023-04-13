@@ -2,8 +2,8 @@ pipeline {
   agent any
 
   environment {
-    DOCKERHUB_USERNAME = credentials('dockerhub-creds').username.'alokpandey25'
-    DOCKERHUB_PASSWORD = credentials('dockerhub-creds').password.'Alokpan777'
+    DOCKERHUB_USERNAME = credentials('dockerhub-creds').username
+    DOCKERHUB_PASSWORD = credentials('dockerhub-creds').password
   }
 
   stages {
