@@ -18,7 +18,7 @@ pipeline {
                 script {
                     docker.withRegistry("", "") {
                         def container = docker.run("-p 8080:8080 -d ${indexapp}")
-                        echo "Container ID: ${container.id}"
+                        echo "Container ID: ${5672cc3a8889}"
                     }
                 }
             }
