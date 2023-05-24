@@ -1,5 +1,11 @@
-FROM openjdk:8-jdk-alpine
+# Use a base image with Java installed
+FROM openjdk:11-jdk
+
+# Set the working directory inside the container
 WORKDIR /app
-COPY RealTimeClock.java /app
-RUN javac RealTimeClock.java
-CMD ["java", "RealTimeClock"]
+
+# Copy the Java application JAR file to the container
+COPY RealTimeClock.jar /app
+
+# Set the entry point command to run the Java application
+CMD ["java", "-jar", "RealTimeClock.jar"]
