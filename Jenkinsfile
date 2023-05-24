@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                echo 'docker run alokpandey25/index-app tested at the terminal'
+                sh 'docker pull alokpandey25/index-app:latest'
             }
         }
         
