@@ -1,27 +1,29 @@
 pipeline {
-    agent any
-
+    agent {
+        docker {
+            image 'docker:latest'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
+    
     stages {
-        stage('Pull Docker Image') {
+        stage('Pull') {
             steps {
-                script {
-                    docker.withRegistry("https://registry.hub.docker.com", "dockerhub-creds") {
-                        def customImage = docker.image(indexapp)
-                        customImage.pull()
-                    }
-                }
+                sh 'docker pull alokpandey25/docker-app .'
             }
         }
-
-        stage('Run Docker Container') {
+        
+        stage('Test') {
             steps {
-                script {
-                    docker.withRegistry("", "") {
-                        def container = docker.run("-p 8080:8080 -d ${indexapp}")
-                        echo "Container ID: ${5672cc3a8889}"
-                    }
-                }
+                sh 'docker run alokpandey25/docker-app npm test'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                sh 'docker run -p 8080:80 alokpandey25/docker-app'
             }
         }
     }
 }
+
