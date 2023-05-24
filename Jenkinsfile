@@ -1,15 +1,46 @@
-pipeline {
+pipeline{
+    
     agent any
 
-    stages {
-        stage('Authenticate with Docker Registry') {
-            steps {
-                script {
-                    sh 'docker login -u alokpandey25 -p Alokpan777 registry.hub.docker.com/busybox'
-                    sh 'docker pull alokpandey25/index-app:latest'
-                    sh 'docker run -p 8080:80 alokpandey25/index-app:latest'
-                }
-            }
-        }
-    }
+	environment {
+		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+	}
+
+	stages {
+	    
+	    stage('gitclone') {
+
+			steps {
+				git 'https://github.com/Alok77pandey/docker-app.git'
+			}
+		}
+
+		stage('Build') {
+
+			steps {
+				sh 'docker build -t alokpandey25/docdocdocdoc:latest .'
+			}
+		}
+
+		stage('Login') {
+
+			steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		}
+
+		stage('Push') {
+
+			steps {
+				sh 'docker push alokpandey25/docdocdocdoc:latest'
+			}
+		}
+	}
+
+	post {
+		always {
+			sh 'docker logout'
+		}
+	}
+
 }
