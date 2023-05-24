@@ -13,7 +13,7 @@ pipeline {
         stage('Pull Docker Image') {
             steps {
                 script {
-                    sh 'docker pull alokpandey25/index-app:latest registry.hub.docker.com/busybox'
+                    sh 'docker pull alokpandey25/index-app:latest'
                 }
             }
         }
@@ -21,7 +21,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    sh 'docker run -p 8080:80 alokpandey25/index-app:latest registry.hub.docker.com/busybox'
+                    sh 'docker run -p 8080:80 -u alokpandey25 -p Alokpan777 alokpandey25/index-app:latest'
                 }
             }
         }
