@@ -1,16 +1,28 @@
 pipeline {
     agent any
-    
+
     stages {
-        stage('Test') {
+        stage('Authenticate with Docker Registry') {
             steps {
-                sh 'docker pull alokpandey25/index-app:latest'
+                script {
+                    sh 'docker login -u alokpandey25 -p Alokpan777 registry.hub.docker.com/busybox'
+                }
             }
         }
-        
-        stage('Run') {
+
+        stage('Pull Docker Image') {
             steps {
-                sh 'docker run -p 8080:80 alokpandey25/index-app'
+                script {
+                    sh 'docker pull alokpandey25/index-app:latest'
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    sh 'docker run -p 8080:80 alokpandey25/index-app:latest'
+                }
             }
         }
     }
